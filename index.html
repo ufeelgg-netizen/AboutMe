@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>𝐡𝐮𝐫𝐥𝐞𝐲𝐱𝐲𝐳</title>
-    <link rel="icon" type="image/webp" href="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp">
+    <link rel="icon" type="image/png" href="https://i.imgur.com/4M34i5E.png">
     <style>
         * {
             margin: 0;
@@ -15,183 +15,89 @@
 
         body {
             font-family: 'Tajawal', system-ui, sans-serif;
-            background: #0a0a1a;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* ==============================================
-           أنيميشن الدخول القوي - بدون سيوف
-           ============================================== */
-        .epic-intro {
+        /* ========== أنيميشن دخول خفيف وسريع ========== */
+        .intro {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 10000;
-            background: radial-gradient(ellipse at center, #000000 0%, #0a0015 100%);
+            background: linear-gradient(135deg, #0f0c29, #24243e);
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), visibility 0.8s;
+            transition: opacity 0.6s ease, visibility 0.6s;
         }
 
-        .epic-intro.fade-out {
+        .intro.fade-out {
             opacity: 0;
             visibility: hidden;
         }
 
-        /* الحلقات الدائرية المتوسعة */
-        .ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 100, 50, 0.8);
-            box-shadow: 0 0 30px rgba(255, 80, 0, 0.8), inset 0 0 20px rgba(255, 100, 0, 0.5);
-            animation: expandRing 1.2s ease-out forwards;
-        }
-
-        @keyframes expandRing {
-            0% {
-                width: 0px;
-                height: 0px;
-                opacity: 1;
-                border-width: 4px;
-            }
-            100% {
-                width: 300px;
-                height: 300px;
-                opacity: 0;
-                border-width: 1px;
-            }
-        }
-
-        /* الموجات الصوتية */
-        .wave-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 200, 100, 0.6);
-            animation: waveExpand 1.5s ease-out infinite;
-        }
-
-        @keyframes waveExpand {
-            0% {
-                width: 50px;
-                height: 50px;
-                opacity: 0.8;
-            }
-            100% {
-                width: 400px;
-                height: 400px;
-                opacity: 0;
-            }
-        }
-
-        /* الشعار المركزي */
-        .epic-logo {
-            position: relative;
-            z-index: 20;
+        .intro-content {
             text-align: center;
-            animation: logoEntrance 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: introBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .epic-logo h1 {
-            font-size: 56px;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffffff, #ffaa44, #ff6600, #ffcc88);
+        .intro-content h1 {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #667eea, #f093fb);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 30px rgba(255, 100, 0, 0.5);
-            letter-spacing: 4px;
-        }
-
-        .epic-logo p {
-            color: rgba(255, 200, 100, 0.7);
-            font-size: 16px;
-            margin-top: 15px;
             letter-spacing: 3px;
         }
 
-        @keyframes logoEntrance {
+        .intro-content p {
+            color: rgba(255,255,255,0.6);
+            margin-top: 12px;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        @keyframes introBounce {
             0% {
-                transform: scale(0) rotate(-180deg);
+                transform: scale(0.7);
                 opacity: 0;
             }
-            50% {
-                transform: scale(1.2) rotate(0deg);
+            70% {
+                transform: scale(1.05);
             }
             100% {
-                transform: scale(1) rotate(0deg);
+                transform: scale(1);
                 opacity: 1;
             }
         }
 
-        /* الجسيمات المتطايرة */
-        .particle-burst {
+        /* جسيمات خفيفة */
+        .particle {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, #ffaa44, #ff3300);
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, #667eea, #f093fb);
             border-radius: 50%;
-            pointer-events: none;
-            animation: burstFly 1.2s ease-out forwards;
+            animation: floatUp 1.5s ease-out forwards;
         }
 
-        @keyframes burstFly {
+        @keyframes floatUp {
             0% {
-                transform: translate(0, 0) scale(1);
+                transform: translateY(0) scale(1);
                 opacity: 1;
             }
             100% {
-                transform: translate(var(--tx, 150px), var(--ty, -200px)) scale(0);
+                transform: translateY(-200px) scale(0);
                 opacity: 0;
             }
         }
 
-        /* الدخان الكثيف */
-        .smoke-cloud {
-            position: absolute;
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle, rgba(80, 60, 40, 0.7), rgba(30, 20, 10, 0));
-            border-radius: 50%;
-            filter: blur(15px);
-            pointer-events: none;
-            animation: smokeFloat 2s ease-out forwards;
-        }
-
-        @keyframes smokeFloat {
-            0% {
-                transform: scale(0.5) translateY(0);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(3) translateY(-150px);
-                opacity: 0;
-            }
-        }
-
-        /* ومضات البرق */
-        .flash {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 200, 0.9), rgba(255, 200, 100, 0.5), transparent);
-            pointer-events: none;
-            opacity: 0;
-            animation: flashEffect 0.15s 4;
-        }
-
-        @keyframes flashEffect {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
-        }
-
-        /* الخلفية المتحركة بعد الدخول */
+        /* الخلفية */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -200,40 +106,34 @@
             height: 100%;
             z-index: -2;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            animation: bgShift 15s infinite alternate;
         }
 
-        @keyframes bgShift {
-            0% { filter: hue-rotate(0deg) brightness(1); }
-            100% { filter: hue-rotate(20deg) brightness(1.1); }
-        }
-
-        /* النجوم المتساقطة */
+        /* النجوم */
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.7;
+            opacity: 0.5;
             animation: starFall linear infinite;
         }
 
         @keyframes starFall {
             from {
-                transform: translateY(-100px) translateX(0) rotate(0deg);
+                transform: translateY(-100px) translateX(0);
             }
             to {
-                transform: translateY(100vh) translateX(100px) rotate(360deg);
+                transform: translateY(100vh) translateX(80px);
                 opacity: 0;
             }
         }
 
-        /* البطاقة الرئيسية */
+        /* المحتوى الرئيسي */
         .main-content {
             position: relative;
             z-index: 1;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 1s ease-in-out, visibility 0.5s;
+            transition: opacity 0.8s ease-in-out, visibility 0.5s;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -246,28 +146,30 @@
             visibility: visible;
         }
 
+        /* البطاقة */
         .profile-card {
             background: rgba(15, 25, 35, 0.85);
             backdrop-filter: blur(20px);
             border-radius: 40px;
-            padding: 40px 30px;
-            max-width: 550px;
+            padding: 35px 30px;
+            max-width: 520px;
             width: 100%;
             box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
-            animation: cardGlide 0.8s ease-out;
+            animation: cardSlide 0.6s ease-out;
         }
 
-        @keyframes cardGlide {
+        @keyframes cardSlide {
             from {
-                transform: translateY(80px) scale(0.9);
+                transform: translateY(40px);
                 opacity: 0;
             }
             to {
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
                 opacity: 1;
             }
         }
 
+        /* الصورة الشخصية - رابط جديد ومضمون */
         .profile-img {
             width: 130px;
             height: 130px;
@@ -306,17 +208,19 @@
         .handle {
             text-align: center;
             color: rgba(255,255,255,0.7);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            font-size: 14px;
         }
 
         .bio {
             text-align: center;
             color: rgba(255,255,255,0.85);
             margin-bottom: 35px;
-            line-height: 1.8;
-            font-size: 15px;
+            line-height: 1.7;
+            font-size: 14px;
         }
 
+        /* روابط التواصل - تصميم محسن */
         .social-links {
             display: flex;
             flex-direction: column;
@@ -327,40 +231,132 @@
             display: flex;
             align-items: center;
             padding: 12px 20px;
-            border-radius: 20px;
+            border-radius: 25px;
             text-decoration: none;
             color: white;
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
+            transition: all 0.25s ease;
             gap: 15px;
+            cursor: pointer;
         }
 
-        .social-btn:hover {
-            transform: translateX(8px);
+        .social-btn:active {
+            transform: scale(0.97);
             background: rgba(255,255,255,0.15);
         }
 
+        @media (hover: hover) {
+            .social-btn:hover {
+                transform: translateX(5px);
+                background: rgba(255,255,255,0.15);
+            }
+        }
+
         .social-icon svg {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             fill: white;
         }
 
-        /* أدوات التحكم */
+        .social-info {
+            flex: 1;
+        }
+
+        .social-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .social-username {
+            font-size: 11px;
+            opacity: 0.7;
+            font-family: monospace;
+        }
+
+        /* أزرار الموسيقى والثيم */
         .music-player {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.65);
             backdrop-filter: blur(15px);
             border-radius: 50px;
-            padding: 8px 15px;
+            padding: 8px 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             z-index: 100;
             cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: 0.2s;
+        }
+
+        .music-player:active {
+            transform: scale(0.96);
+        }
+
+        .music-icon {
+            font-size: 20px;
+            animation: musicSpin 3s linear infinite;
+        }
+
+        @keyframes musicSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-title {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .music-status {
+            font-size: 9px;
+            opacity: 0.7;
+        }
+
+        .play-pause {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 30px;
+            transition: 0.1s;
+        }
+
+        .play-pause:active {
+            transform: scale(0.9);
+        }
+
+        .wave {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .wave span {
+            width: 3px;
+            height: 10px;
+            background: #a285ff;
+            border-radius: 2px;
+            animation: waveAnim 0.8s infinite ease;
+        }
+
+        .wave span:nth-child(1) { animation-delay: 0s; }
+        .wave span:nth-child(2) { animation-delay: 0.15s; }
+        .wave span:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes waveAnim {
+            0%, 100% { height: 8px; }
+            50% { height: 18px; }
         }
 
         .theme-toggle {
@@ -371,43 +367,78 @@
             backdrop-filter: blur(10px);
             border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 22px;
             z-index: 100;
+            transition: 0.2s;
+        }
+
+        .theme-toggle:active {
+            transform: rotate(90deg) scale(0.95);
+        }
+
+        /* الوضع المضيء */
+        body.light .animated-bg {
+            background: linear-gradient(135deg, #e0c3fc, #b0d4ff, #c2e9fb);
+        }
+        body.light .profile-card {
+            background: rgba(245, 240, 255, 0.8);
+        }
+        body.light .username {
+            background: linear-gradient(135deg, #2c3e66, #8e2de2);
+            -webkit-background-clip: text;
+        }
+        body.light .bio, body.light .handle, body.light .social-username, body.light .social-name {
+            color: #1a1a2e;
+        }
+        body.light .social-btn {
+            background: rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.1);
+            color: #111;
+        }
+        body.light .social-icon svg {
+            fill: #1a1a2e;
         }
 
         @media (max-width: 500px) {
-            .epic-logo h1 { font-size: 32px; letter-spacing: 2px; }
-            .profile-card { padding: 25px 20px; }
+            .profile-card {
+                padding: 25px 20px;
+            }
+            .username {
+                font-size: 28px;
+            }
+            .intro-content h1 {
+                font-size: 32px;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- أنيميشن الدخول القوي (بدون سيوف) -->
-<div class="epic-intro" id="epicIntro">
-    <div class="epic-logo">
-        <h1>⚡ 𝐇𝐔𝐑𝐋𝐄𝐘𝐗𝐘𝐙 ⚡</h1>
-        <p>WELCOME</p>
+<!-- أنيميشن الدخول الخفيف -->
+<div class="intro" id="intro">
+    <div class="intro-content">
+        <h1>𝐡𝐮𝐫𝐥𝐞𝐲𝐱𝐲𝐳</h1>
+        <p>✦  مرحباً بك  ✦</p>
     </div>
-    <div class="flash" id="flash"></div>
 </div>
 
-<!-- خلفية متحركة -->
+<!-- خلفية -->
 <div class="animated-bg" id="animatedBg"></div>
 
 <!-- المحتوى الرئيسي -->
 <div class="main-content" id="mainContent">
     <div class="profile-card">
         <div class="profile-img">
-            <img src="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp" alt="Profile">
+            <!-- صورة مضمونة 100% -->
+            <img id="profileImage" src="https://i.pravatar.cc/300?img=7" alt="Profile">
         </div>
         <h1 class="username">hurleyxyz</h1>
         <div class="handle">@hurleyxyz</div>
-        <p class="bio" id="bioText">
+        <p class="bio">
             ✨ Full Stack Developer | Creator | Tech Enthusiast ✨<br>
             Building digital experiences & sharing knowledge
         </p>
@@ -415,24 +446,30 @@
     </div>
 </div>
 
-<!-- مشغل موسيقى -->
+<!-- مشغل الموسيقى (تشغل أوتوماتيك) -->
 <div class="music-player" id="musicPlayer">
-    <span>🎵</span>
-    <span id="musicStatus">⏸</span>
-    <button id="playPauseBtn" style="background:none;border:none;color:white;cursor:pointer;">▶️</button>
+    <div class="music-icon">🎵</div>
+    <div class="music-info">
+        <div class="music-title">Background Music</div>
+        <div class="music-status" id="musicStatus">🔄 جاري التشغيل...</div>
+    </div>
+    <button class="play-pause" id="playPauseBtn">⏸</button>
+    <div class="wave" id="waveEffect">
+        <span></span><span></span><span></span>
+    </div>
 </div>
 
 <button class="theme-toggle" id="themeBtn">🌙</button>
 
 <script>
-    // أيقونات السوشال ميديا
+    // أيقونات SVG
     const icons = {
         email: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>`,
         github: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.21.68-.48 0-.24-.01-.88-.01-1.73-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/></svg>`,
         discord: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.49 0c-.164-.386-.398-.875-.608-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.68 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.372.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.352.698.764 1.363 1.226 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>`,
         twitter: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
         tiktok: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>`,
-        whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91z"/><path d="M16.85 13.51c-.23-.12-1.37-.68-1.58-.75-.21-.08-.36-.12-.51.12-.15.23-.58.75-.71.9-.13.15-.26.17-.48.05-.23-.12-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.47.11-.11.23-.27.33-.4.11-.13.15-.23.22-.38.07-.15.04-.27-.02-.38s-.51-1.23-.7-1.68c-.18-.44-.37-.38-.51-.38-.13 0-.28-.02-.43-.02s-.39.06-.6.28c-.21.23-.79.78-.79 1.9 0 1.12.81 2.2.93 2.35.11.15 1.6 2.45 3.88 3.43.54.23.96.37 1.29.47.54.17 1.03.15 1.42.09.43-.07 1.37-.56 1.57-1.1.19-.54.19-1.01.14-1.1-.06-.09-.21-.15-.44-.27z"/></svg>`,
+        whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91zm0 18.23c-1.49 0-2.95-.4-4.2-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a7.33 7.33 0 0 1-1.26-4.12c0-4.07 3.31-7.38 7.38-7.38 4.07 0 7.38 3.31 7.38 7.38-.01 4.07-3.32 7.38-7.38 7.38z"/><path d="M16.85 13.51c-.23-.12-1.37-.68-1.58-.75-.21-.08-.36-.12-.51.12-.15.23-.58.75-.71.9-.13.15-.26.17-.48.05-.23-.12-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.47.11-.11.23-.27.33-.4.11-.13.15-.23.22-.38.07-.15.04-.27-.02-.38s-.51-1.23-.7-1.68c-.18-.44-.37-.38-.51-.38-.13 0-.28-.02-.43-.02s-.39.06-.6.28c-.21.23-.79.78-.79 1.9 0 1.12.81 2.2.93 2.35.11.15 1.6 2.45 3.88 3.43.54.23.96.37 1.29.47.54.17 1.03.15 1.42.09.43-.07 1.37-.56 1.57-1.1.19-.54.19-1.01.14-1.1-.06-.09-.21-.15-.44-.27z"/></svg>`,
         instagram: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.29 2 6 4.29 6 8v8c0 3.71 2.29 6 6 6s6-2.29 6-6V8c0-3.71-2.29-6-6-6zm3 8c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1z"/><circle cx="12" cy="15" r="3"/></svg>`,
         facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>`
     };
@@ -441,7 +478,7 @@
         { name: "Email", username: "ufeelgg@gmail.com", icon: icons.email, url: "mailto:hurley@example.com" },
         { name: "GitHub", username: "hurleyxyz", icon: icons.github, url: "https://github.com/ufeelgg-netizen" },
         { name: "Discord", username: "hurleyxyz", icon: icons.discord, url: "https://discord.gg/WH3zqsuv" },
-        { name: "X", username: "@hurleyxyz", icon: icons.twitter, url: "https://x.com/AliYoun2696890" },
+        { name: "X (Twitter)", username: "@hurleyxyz", icon: icons.twitter, url: "https://x.com/AliYoun2696890" },
         { name: "TikTok", username: "@hurleyxyz", icon: icons.tiktok, url: "https://www.tiktok.com/@hurleyxyz" },
         { name: "WhatsApp", username: "hurleyxyz", icon: icons.whatsapp, url: "https://wa.me/94404537" },
         { name: "Instagram", username: "@hurleyxyz", icon: icons.instagram, url: "https://www.instagram.com/hurleyxyz_" },
@@ -450,105 +487,75 @@
 
     function loadSocialLinks() {
         const container = document.getElementById('socialLinks');
+        container.innerHTML = '';
         socialData.forEach(social => {
             const btn = document.createElement('a');
             btn.href = social.url;
             btn.className = 'social-btn';
             btn.target = '_blank';
-            btn.innerHTML = `<div class="social-icon">${social.icon}</div><div><div>${social.name}</div><div style="font-size:12px;opacity:0.7">${social.username}</div></div>`;
+            btn.innerHTML = `
+                <div class="social-icon">${social.icon}</div>
+                <div class="social-info">
+                    <div class="social-name">${social.name}</div>
+                    <div class="social-username">${social.username}</div>
+                </div>
+            `;
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.open(social.url, '_blank');
+            });
             container.appendChild(btn);
         });
     }
 
-    // ========== تأثيرات الأنيميشن القوية ==========
-    
-    // إنشاء حلقات متوسعة
-    function createRings() {
-        for(let i = 0; i < 12; i++) {
-            setTimeout(() => {
-                const ring = document.createElement('div');
-                ring.classList.add('ring');
-                ring.style.left = '50%';
-                ring.style.top = '50%';
-                ring.style.transform = 'translate(-50%, -50%)';
-                document.getElementById('epicIntro').appendChild(ring);
-                setTimeout(() => ring.remove(), 1300);
-            }, i * 80);
-        }
-    }
-
-    // إنشاء جسيمات متطايرة
-    function createParticleBurst() {
-        for(let i = 0; i < 200; i++) {
-            setTimeout(() => {
-                const particle = document.createElement('div');
-                particle.classList.add('particle-burst');
-                particle.style.left = '50%';
-                particle.style.top = '50%';
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 100 + Math.random() * 200;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance - 80;
-                particle.style.setProperty('--tx', tx + 'px');
-                particle.style.setProperty('--ty', ty + 'px');
-                document.getElementById('epicIntro').appendChild(particle);
-                setTimeout(() => particle.remove(), 1200);
-            }, i * 8);
-        }
-    }
-
-    // إنشاء سحب دخان
-    function createSmokeClouds() {
-        for(let i = 0; i < 40; i++) {
-            setTimeout(() => {
-                const smoke = document.createElement('div');
-                smoke.classList.add('smoke-cloud');
-                smoke.style.left = Math.random() * 100 + '%';
-                smoke.style.top = Math.random() * 100 + '%';
-                document.getElementById('epicIntro').appendChild(smoke);
-                setTimeout(() => smoke.remove(), 2000);
-            }, i * 60);
-        }
-    }
-
-    // إنشاء موجات صوتية
-    function createWaveRings() {
-        for(let i = 0; i < 8; i++) {
-            setTimeout(() => {
-                const wave = document.createElement('div');
-                wave.classList.add('wave-ring');
-                wave.style.left = '50%';
-                wave.style.top = '50%';
-                wave.style.transform = 'translate(-50%, -50%)';
-                document.getElementById('epicIntro').appendChild(wave);
-                setTimeout(() => wave.remove(), 1600);
-            }, i * 100);
-        }
-    }
-
-    // نجوم متساقطة للخلفية
+    // نجوم
     function createStars() {
-        for(let i = 0; i < 120; i++) {
+        for(let i = 0; i < 80; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
             star.style.left = Math.random() * 100 + '%';
-            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.width = Math.random() * 2 + 1 + 'px';
             star.style.height = star.style.width;
-            star.style.animationDuration = Math.random() * 3 + 2 + 's';
-            star.style.animationDelay = Math.random() * 10 + 's';
+            star.style.animationDuration = Math.random() * 4 + 2 + 's';
+            star.style.animationDelay = Math.random() * 8 + 's';
             document.getElementById('animatedBg').appendChild(star);
         }
     }
 
-    // الموسيقى
+    // جسيمات للأنترو
+    function createParticles() {
+        for(let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                document.getElementById('intro').appendChild(p);
+                setTimeout(() => p.remove(), 1500);
+            }, i * 20);
+        }
+    }
+
+    // ========== الموسيقى - تشتغل أوتوماتيك ==========
     let audio = null;
-    let isPlaying = false;
+    let isPlaying = true;
 
     function initMusic() {
         audio = new Audio();
         audio.src = 'other/sound.mp3';
         audio.loop = true;
-        audio.volume = 0.3;
+        audio.volume = 0.25;
+        
+        // محاولة تشغيل تلقائي
+        audio.play().then(() => {
+            isPlaying = true;
+            document.getElementById('playPauseBtn').textContent = '⏸';
+            document.getElementById('musicStatus').textContent = '🎵 تشغيل';
+        }).catch(() => {
+            isPlaying = false;
+            document.getElementById('playPauseBtn').textContent = '▶️';
+            document.getElementById('musicStatus').textContent = '⏸ اضغط للتشغيل';
+        });
     }
 
     function toggleMusic() {
@@ -557,12 +564,12 @@
             audio.pause();
             isPlaying = false;
             document.getElementById('playPauseBtn').textContent = '▶️';
-            document.getElementById('musicStatus').textContent = '⏸';
+            document.getElementById('musicStatus').textContent = '⏸ متوقفة';
         } else {
-            audio.play().catch(() => alert('🔊 اضغط لتشغيل الموسيقى'));
+            audio.play();
             isPlaying = true;
             document.getElementById('playPauseBtn').textContent = '⏸';
-            document.getElementById('musicStatus').textContent = '🎵';
+            document.getElementById('musicStatus').textContent = '🎵 تشغيل';
         }
     }
 
@@ -570,12 +577,11 @@
     let isLight = false;
     function toggleTheme() {
         isLight = !isLight;
-        const bg = document.getElementById('animatedBg');
         if(isLight) {
-            bg.style.background = 'linear-gradient(135deg, #e0c3fc, #8ec5fc)';
+            document.body.classList.add('light');
             document.getElementById('themeBtn').textContent = '☀️';
         } else {
-            bg.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+            document.body.classList.remove('light');
             document.getElementById('themeBtn').textContent = '🌙';
         }
     }
@@ -584,28 +590,28 @@
     window.addEventListener('load', () => {
         loadSocialLinks();
         createStars();
+        createParticles();
         initMusic();
         
-        // تشغيل كل تأثيرات الأنيميشن
-        createRings();
-        createParticleBurst();
-        createSmokeClouds();
-        createWaveRings();
-        
-        // ومضات البرق
-        const flash = document.getElementById('flash');
-        flash.style.animation = 'flashEffect 0.15s 4';
-        
-        // إخفاء شاشة الدخول بعد الأنيميشن
+        // إخفاء الأنترو بعد 1.5 ثانية
         setTimeout(() => {
-            document.getElementById('epicIntro').classList.add('fade-out');
+            const intro = document.getElementById('intro');
+            intro.classList.add('fade-out');
             setTimeout(() => {
-                document.getElementById('epicIntro').style.display = 'none';
+                intro.style.display = 'none';
                 document.getElementById('mainContent').classList.add('visible');
-            }, 800);
-        }, 2800);
+            }, 600);
+        }, 1500);
         
-        document.getElementById('playPauseBtn').addEventListener('click', toggleMusic);
+        document.getElementById('playPauseBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMusic();
+        });
+        
+        document.getElementById('musicPlayer').addEventListener('click', (e) => {
+            if(!e.target.closest('.play-pause')) toggleMusic();
+        });
+        
         document.getElementById('themeBtn').addEventListener('click', toggleTheme);
     });
 </script>
