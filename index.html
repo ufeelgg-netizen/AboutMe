@@ -2,13 +2,20 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>𝐡𝐮𝐫𝐥𝐞𝐲𝐱𝐲𝐳 </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>𝐡𝐮𝐫𝐥𝐞𝐲𝐱𝐲𝐳 | الملف الشخصي</title>
+    
+    <!-- إعداد صورة الموقع (Favicon) باستخدام الصورة الشخصية -->
+    <link rel="icon" type="image/webp" href="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp?ex=6a188715&is=6a173595&hm=5c89187144f01e10641be3567ca20b4d0597d69f1f354b261ffe08eb89e7334b&">
+    <link rel="apple-touch-icon" href="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp?ex=6a188715&is=6a173595&hm=5c89187144f01e10641be3567ca20b4d0597d69f1f354b261ffe08eb89e7334b&">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* إزالة المستطيل الأزرق نهائياً */
+            user-select: none; /* منع تحديد النص اثناء الضغط السريع */
         }
 
         body {
@@ -22,9 +29,82 @@
             position: relative;
             overflow-x: hidden;
             cursor: default;
+            transition: background 0.3s ease;
         }
 
-        /* شاشة التحميل */
+        /* =============== أنميشن السيوف الافتتاحي القوي =============== */
+        .sword-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2000;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.7);
+            opacity: 1;
+            transition: opacity 0.8s cubic-bezier(0.77, 0, 0.18, 1);
+        }
+        
+        .sword-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .sword-left, .sword-right {
+            position: absolute;
+            width: 80px;
+            height: 80%;
+            background: linear-gradient(135deg, #e0e0e0, #a0a0a0, #ffffff, #c0c0c0);
+            clip-path: polygon(40% 0%, 60% 0%, 55% 100%, 45% 100%);
+            box-shadow: 0 0 30px rgba(255,255,200,0.8), 0 0 60px rgba(255,215,0,0.5);
+            transition: all 1.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+            transform-origin: center;
+        }
+        
+        .sword-left {
+            left: 20%;
+            transform: translateX(-30%) rotate(0deg);
+            animation: swordGlow 1.5s infinite alternate;
+        }
+        
+        .sword-right {
+            right: 20%;
+            transform: translateX(30%) rotate(0deg);
+            animation: swordGlow 1.5s infinite alternate 0.3s;
+        }
+        
+        @keyframes swordGlow {
+            0% { filter: drop-shadow(0 0 5px gold); opacity: 0.9; }
+            100% { filter: drop-shadow(0 0 25px #ffaa33); opacity: 1; }
+        }
+        
+        /* تفعيل انفتاح السيوف */
+        .sword-overlay.open .sword-left {
+            transform: translateX(-150%) rotate(-25deg);
+            opacity: 0;
+        }
+        
+        .sword-overlay.open .sword-right {
+            transform: translateX(150%) rotate(25deg);
+            opacity: 0;
+        }
+        
+        .sword-overlay.open {
+            backdrop-filter: blur(0px);
+            background: rgba(0,0,0,0);
+            pointer-events: none;
+        }
+        
+        /* شاشة تحميل بسيطة (تختفي بعد السيوف) */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -32,35 +112,17 @@
             width: 100%;
             height: 100%;
             background: #0f0c29;
-            z-index: 1000;
+            z-index: 1999;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             transition: opacity 1s, visibility 1s;
+            opacity: 1;
+            visibility: visible;
         }
-
-        .loader {
-            width: 80px;
-            height: 80px;
-            border: 5px solid rgba(102,126,234,0.3);
-            border-top: 5px solid #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            color: white;
-            margin-top: 20px;
-            font-size: 18px;
-        }
-
-        /* أنيميشن الخلفية */
+        
+        /* أنيميشن الجزيئات والخلفية */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -73,22 +135,16 @@
 
         .particle {
             position: absolute;
-            background: radial-gradient(circle, rgba(255,255,255,0.8), transparent);
+            background: radial-gradient(circle, rgba(255,255,255,0.7), transparent);
             border-radius: 50%;
             animation: floatParticle 15s infinite linear;
         }
 
         @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
-            100% {
-                transform: translateY(-100vh) rotate(720deg);
-                opacity: 0;
-            }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
         .glow {
@@ -97,69 +153,53 @@
             height: 300px;
             background: radial-gradient(circle, rgba(102,126,234,0.3), transparent);
             border-radius: 50%;
-            animation: glowMove 10s infinite alternate;
+            animation: glowMove 12s infinite alternate;
         }
 
         @keyframes glowMove {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-            100% { transform: translate(100px, 100px) scale(1.5); opacity: 0.6; }
+            0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+            100% { transform: translate(80px, 80px) scale(1.6); opacity: 0.5; }
         }
 
-        /* البطاقة الرئيسية */
+        /* البطاقة الرئيسية - تحسين الجوال */
         .profile-card {
             position: relative;
             z-index: 1;
             background: rgba(15, 25, 35, 0.85);
             backdrop-filter: blur(20px);
             border-radius: 40px;
-            padding: 45px 35px;
-            max-width: 580px;
+            padding: 35px 25px;
+            max-width: 560px;
             width: 100%;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
-            animation: cardGlow 3s ease-in-out infinite, slideIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.95) translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
         .profile-card.visible {
             opacity: 1;
-            transform: scale(1);
-        }
-
-        @keyframes cardGlow {
-            0%, 100% { box-shadow: 0 25px 50px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1); }
-            50% { box-shadow: 0 25px 60px rgba(102,126,234,0.3), 0 0 0 2px rgba(102,126,234,0.5); }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(50px) rotateX(-10deg) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) rotateX(0) scale(1);
-            }
+            transform: scale(1) translateY(0);
         }
 
         /* الصورة الشخصية */
         .profile-img {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 20px;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: profilePulse 2s infinite, borderRotate 4s linear infinite;
+            animation: profilePulse 2.5s infinite, borderRotate 5s linear infinite;
             position: relative;
         }
 
         @keyframes profilePulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(102,126,234,0.7); }
-            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(102,126,234,0); }
+            50% { transform: scale(1.03); box-shadow: 0 0 0 15px rgba(102,126,234,0); }
         }
 
         @keyframes borderRotate {
@@ -168,60 +208,48 @@
         }
 
         .profile-img img {
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid rgba(255,255,255,0.3);
+            border: 3px solid rgba(255,255,255,0.4);
             transition: transform 0.3s;
         }
 
         .profile-img img:hover {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         /* النصوص */
         .username {
             text-align: center;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #667eea, #f093fb);
+            background: linear-gradient(135deg, #fff, #a58eff, #ffb3fd);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             margin-bottom: 8px;
-            animation: textShine 3s infinite;
-        }
-
-        @keyframes textShine {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+            letter-spacing: 1px;
         }
 
         .handle {
             text-align: center;
-            color: rgba(255,255,255,0.7);
-            font-size: 14px;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-        }
-
-        .handle span {
-            background: rgba(255,255,255,0.1);
-            padding: 5px 12px;
-            border-radius: 20px;
-            display: inline-block;
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+            margin-bottom: 20px;
         }
 
         .bio {
             text-align: center;
             color: rgba(255,255,255,0.85);
-            margin-bottom: 35px;
-            line-height: 1.8;
-            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 14px;
+            padding: 0 5px;
         }
 
-        /* روابط التواصل */
+        /* روابط التواصل - تحسين الجوال والضغط */
         .social-links {
             display: flex;
             flex-direction: column;
@@ -231,43 +259,33 @@
         .social-btn {
             display: flex;
             align-items: center;
-            padding: 14px 20px;
-            border-radius: 20px;
+            padding: 12px 18px;
+            border-radius: 28px;
             text-decoration: none;
             color: white;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            animation: fadeInUp 0.6s ease-out backwards;
-            gap: 15px;
+            transition: all 0.25s ease;
+            gap: 14px;
             background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.15);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .social-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+        .social-btn:active {
+            transform: scale(0.97);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        @media (hover: hover) {
+            .social-btn:hover {
+                transform: translateX(6px) scale(1.01);
+                filter: brightness(1.12);
+                border-color: rgba(255,255,255,0.4);
+            }
         }
 
-        .social-btn:hover::before {
-            left: 100%;
-        }
-
-        .social-btn:hover {
-            transform: translateX(8px) scale(1.02);
-            filter: brightness(1.15);
-            border-color: rgba(255,255,255,0.3);
-        }
-
-        /* أيقونات SVG */
         .social-icon {
             width: 32px;
             height: 32px;
@@ -277,9 +295,9 @@
         }
 
         .social-icon svg {
-            width: 28px;
-            height: 28px;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+            width: 26px;
+            height: 26px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
         .social-info {
@@ -287,71 +305,42 @@
         }
 
         .social-name {
-            font-size: 16px;
-            margin-bottom: 3px;
+            font-size: 15px;
             font-weight: 700;
         }
 
         .social-username {
-            font-size: 12px;
-            opacity: 0.8;
+            font-size: 11px;
+            opacity: 0.75;
             font-family: monospace;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* تأخيرات الأنيميشن */
-        .email { animation-delay: 0.05s; }
-        .github { animation-delay: 0.1s; }
-        .discord { animation-delay: 0.15s; }
-        .twitter { animation-delay: 0.2s; }
-        .tiktok { animation-delay: 0.25s; }
-        .whatsapp { animation-delay: 0.3s; }
-        .instagram { animation-delay: 0.35s; }
-        .facebook { animation-delay: 0.4s; }
-
-        /* مشغل الموسيقى */
+        /* مشغل الموسيقى المحسن */
         .music-player {
             position: fixed;
             bottom: 20px;
             left: 20px;
-            z-index: 2;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(15px);
-            border-radius: 50px;
+            z-index: 100;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(18px);
+            border-radius: 60px;
             padding: 8px 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            animation: musicFloat 2s ease-in-out infinite;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.25);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .music-player:hover {
-            transform: scale(1.05);
-            background: rgba(0,0,0,0.8);
-        }
-
-        @keyframes musicFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        
+        .music-player:active {
+            transform: scale(0.96);
         }
 
         .music-icon {
-            font-size: 24px;
-            animation: musicRotate 3s linear infinite;
-            display: inline-block;
+            font-size: 22px;
+            animation: musicRotate 4s linear infinite;
         }
 
         @keyframes musicRotate {
@@ -359,51 +348,44 @@
             to { transform: rotate(360deg); }
         }
 
-        .music-info {
-            display: flex;
-            flex-direction: column;
+        .music-info .music-title {
+            font-size: 11px;
+            font-weight: 600;
         }
-
-        .music-title {
-            font-size: 12px;
-            color: white;
-            font-weight: 500;
-        }
-
+        
         .music-status {
-            font-size: 10px;
-            color: rgba(255,255,255,0.6);
+            font-size: 9px;
+            opacity: 0.7;
         }
 
         .play-pause {
             background: none;
             border: none;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: 0.2s;
+            padding: 6px;
+            border-radius: 30px;
+            transition: 0.1s;
+            -webkit-tap-highlight-color: transparent;
         }
-
-        .play-pause:hover {
-            transform: scale(1.1);
+        
+        .play-pause:active {
+            transform: scale(0.9);
         }
-
-        /* مؤشر الصوت المتغير */
+        
         .wave {
             display: flex;
             gap: 3px;
             align-items: center;
-            margin-left: 5px;
         }
 
         .wave span {
             width: 3px;
             height: 12px;
-            background: #667eea;
+            background: #a285ff;
             border-radius: 3px;
-            animation: wave 1s ease-in-out infinite;
+            animation: waveAnim 0.9s infinite ease;
         }
 
         .wave span:nth-child(1) { animation-delay: 0s; }
@@ -411,68 +393,114 @@
         .wave span:nth-child(3) { animation-delay: 0.4s; }
         .wave span:nth-child(4) { animation-delay: 0.6s; }
 
-        @keyframes wave {
-            0%, 100% { height: 12px; }
-            50% { height: 25px; }
+        @keyframes waveAnim {
+            0%, 100% { height: 8px; }
+            50% { height: 22px; }
         }
 
-        /* زر الوضع المظلم */
         .theme-toggle {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 2;
+            z-index: 100;
             background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 48px;
+            height: 48px;
             cursor: pointer;
             font-size: 24px;
-            transition: 0.3s;
+            transition: 0.2s;
             color: white;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .theme-toggle:active {
+            transform: rotate(90deg) scale(0.95);
         }
 
-        .theme-toggle:hover {
-            transform: rotate(180deg) scale(1.1);
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* تذييل */
         .footer {
-            margin-top: 25px;
+            margin-top: 28px;
             text-align: center;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
+            font-size: 11px;
+            color: rgba(255,255,255,0.45);
+        }
+        
+        /* تحسينات للجوال */
+        @media (max-width: 500px) {
+            .profile-card {
+                padding: 28px 20px;
+            }
+            .username {
+                font-size: 26px;
+            }
+            .social-btn {
+                padding: 10px 16px;
+            }
+            .sword-left, .sword-right {
+                width: 45px;
+                height: 70%;
+            }
+            .sword-left { left: 10%; }
+            .sword-right { right: 10%; }
+        }
+        
+        /* الوضع المضيء */
+        body.light {
+            background: linear-gradient(135deg, #e0c3fc, #b0d4ff, #c2e9fb);
+        }
+        body.light .profile-card {
+            background: rgba(245, 240, 255, 0.75);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.1);
+        }
+        body.light .username {
+            background: linear-gradient(135deg, #2c3e66, #8e2de2);
+            -webkit-background-clip: text;
+        }
+        body.light .bio, body.light .handle, body.light .social-username, body.light .social-name {
+            color: #1a1a2e;
+        }
+        body.light .social-btn {
+            background: rgba(0,0,0,0.05);
+            border-color: rgba(0,0,0,0.1);
+            color: #111;
+        }
+        body.light .footer {
+            color: #2c2c54;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- شاشة تحميل -->
+    <!-- شاشة السيوف الافتتاحية -->
+    <div class="sword-overlay" id="swordOverlay">
+        <div class="sword-container">
+            <div class="sword-left"></div>
+            <div class="sword-right"></div>
+        </div>
+    </div>
+    
     <div class="loading-screen" id="loadingScreen">
-        <div class="loader"></div>
-        <div class="loading-text">جاري التحميل...</div>
+        <div class="loader" style="width:50px;height:50px;border:3px solid rgba(255,255,255,0.2);border-top:3px solid #9b7eff;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+        <div class="loading-text" style="color:white;margin-top:12px;">فتح الأبواب...</div>
     </div>
 
     <!-- مشغل الموسيقى -->
     <div class="music-player" id="musicPlayer">
-        <div class="music-icon">🎵</div>
+        <div class="music-icon">⚔️</div>
         <div class="music-info">
-            <div class="music-title">Background Music</div>
+            <div class="music-title">Epic Sword OST</div>
             <div class="music-status" id="musicStatus">⏸ متوقفة</div>
         </div>
         <button class="play-pause" id="playPauseBtn">▶️</button>
         <div class="wave" id="waveEffect" style="display: none;">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <span></span><span></span><span></span><span></span>
         </div>
     </div>
 
-    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <button class="theme-toggle" id="themeBtn">🌙</button>
 
     <div class="bg-animation" id="bgAnimation"></div>
 
@@ -484,87 +512,16 @@
         <h1 class="username" id="username">hurleyxyz</h1>
         <div class="handle"><span>@hurleyxyz</span></div>
         <p class="bio">
-            ✨ Full Stack Developer | Creator | Tech Enthusiast ✨<br>
-            Building digital experiences & sharing knowledge
+            ⚡ مطور full stack | مبدع رقمي | عاشق السيوف والتقنية ⚡<br>
+            أُحوِّل الأفكار إلى تجارب تفاعلية
         </p>
 
         <div class="social-links" id="socialLinks"></div>
-
-        <div class="footer">
-            
-        </div>روابط سوشل ميديا خاصتي
-
+        <div class="footer">𝐡𝐮𝐫𝐥𝐞𝐲𝐱𝐲𝐳 | روابط التواصل الاجتماعي</div>
+    </div>
 
     <script>
-        // إعداد الموسيقى - تم التعديل لقراءة ملف sound.mp3 مباشرة
-        let audio = null;
-        let isPlaying = false;
-        
-        function initMusic() {
-            try {
-                // إنشاء عنصر الصوت
-                audio = new Audio();
-                
-                // تحديد ملف الصوت الخاص بك مباشرة
-                audio.src = 'other/sound.mp3';
-                audio.loop = true;
-                audio.volume = 0.3; // صوت خفيف
-                
-                // التحقق من وجود الملف
-                fetch('other/sound.mp3', { method: 'HEAD' })
-                    .then(response => {
-                        if(response.ok) {
-                            console.log('✅ تم العثور على ملف sound.mp3');
-                            document.querySelector('.music-title').textContent = '🎵 sound.mp3';
-                        } else {
-                            console.log('❌ لم يتم العثور على الملف في المسار: other/sound.mp3');
-                            document.querySelector('.music-title').textContent = '⚠️ ملف الصوت غير موجود';
-                        }
-                    })
-                    .catch(() => {
-                        console.log('❌ خطأ في تحميل الملف: other/sound.mp3');
-                        document.querySelector('.music-title').textContent = '⚠️ تأكد من وجود sound.mp3';
-                    });
-                
-            } catch(e) {
-                console.log('مشغل الموسيقى غير متاح:', e);
-            }
-        }
-        
-        function playMusic() {
-            if(audio) {
-                audio.play().then(() => {
-                    console.log('🎵 تم تشغيل الموسيقى بنجاح');
-                }).catch(e => {
-                    console.log('تحتاج إلى النقر على الصفحة أولاً لتشغيل الموسيقى');
-                    alert('🔊 اضغط على زر التشغيل ▶️ لتشغيل الموسيقى');
-                });
-            }
-        }
-        
-        function pauseMusic() {
-            if(audio) {
-                audio.pause();
-            }
-        }
-        
-        function toggleMusic() {
-            if(isPlaying) {
-                pauseMusic();
-                isPlaying = false;
-                document.getElementById('playPauseBtn').textContent = '▶️';
-                document.getElementById('musicStatus').textContent = '⏸ متوقفة';
-                document.getElementById('waveEffect').style.display = 'none';
-            } else {
-                playMusic();
-                isPlaying = true;
-                document.getElementById('playPauseBtn').textContent = '⏸';
-                document.getElementById('musicStatus').textContent = '🎵 تشغيل';
-                document.getElementById('waveEffect').style.display = 'flex';
-            }
-        }
-        
-        // أيقونات SVG
+        // --- أيقونات SVG ---
         const icons = {
             email: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>`,
             github: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.21.68-.48 0-.24-.01-.88-.01-1.73-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/></svg>`,
@@ -581,105 +538,119 @@
             { name: "GitHub", username: "hurleyxyz", icon: icons.github, url: "https://github.com/ufeelgg-netizen", class: "github" },
             { name: "Discord", username: "hurleyxyz", icon: icons.discord, url: "https://discord.gg/WH3zqsuv", class: "discord" },
             { name: "X (Twitter)", username: "@hurleyxyz", icon: icons.twitter, url: "https://x.com/AliYoun2696890", class: "twitter" },
-            { name: "TikTok", username: "@hurleyxyz", icon: icons.tiktok, url: "https://www.tiktok.com/@hurleyxyz?_r=1&_t=ZS-96iYVqGRon6", class: "tiktok" },
+            { name: "TikTok", username: "@hurleyxyz", icon: icons.tiktok, url: "https://www.tiktok.com/@hurleyxyz", class: "tiktok" },
             { name: "WhatsApp", username: "hurleyxyz", icon: icons.whatsapp, url: "https://wa.me/94404537", class: "whatsapp" },
-            { name: "Instagram", username: "@hurleyxyz", icon: icons.instagram, url: "https://www.instagram.com/hurleyxyz_?igsh=MW1zc25sYzcwazdmcQ==", class: "instagram" },
+            { name: "Instagram", username: "@hurleyxyz", icon: icons.instagram, url: "https://www.instagram.com/hurleyxyz_", class: "instagram" },
             { name: "Facebook", username: "hurleyxyz", icon: icons.facebook, url: "https://www.facebook.com/share/1CdmnFusmC/", class: "facebook" }
         ];
 
         function loadSocialLinks() {
             const container = document.getElementById('socialLinks');
             container.innerHTML = '';
-            
             socialData.forEach(social => {
                 const btn = document.createElement('a');
                 btn.href = social.url;
                 btn.className = `social-btn ${social.class}`;
                 btn.target = "_blank";
-                
-                btn.innerHTML = `
-                    <div class="social-icon">${social.icon}</div>
-                    <div class="social-info">
-                        <div class="social-name">${social.name}</div>
-                        <div class="social-username">${social.username}</div>
-                    </div>
-                `;
-                
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.open(social.url, '_blank');
-                });
-                
+                btn.innerHTML = `<div class="social-icon">${social.icon}</div><div class="social-info"><div class="social-name">${social.name}</div><div class="social-username">${social.username}</div></div>`;
+                btn.addEventListener('click', (e) => { e.preventDefault(); window.open(social.url, '_blank'); });
                 container.appendChild(btn);
             });
         }
 
         function createBackgroundAnimation() {
             const bg = document.getElementById('bgAnimation');
-            for(let i = 0; i < 60; i++) {
+            for(let i = 0; i < 45; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                const size = Math.random() * 4 + 2;
+                let size = Math.random() * 5 + 2;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 20 + 's';
-                particle.style.animationDuration = Math.random() * 10 + 8 + 's';
-                particle.style.background = `radial-gradient(circle, rgba(${100 + Math.random() * 155}, ${100 + Math.random() * 155}, 255, 0.8), transparent)`;
+                particle.style.animationDuration = Math.random() * 12 + 6 + 's';
+                particle.style.background = `radial-gradient(circle, rgba(180,150,255,0.8), rgba(100,80,200,0.3))`;
                 bg.appendChild(particle);
             }
-            
-            for(let i = 0; i < 5; i++) {
-                const glow = document.createElement('div');
+            for(let i=0;i<4;i++) {
+                let glow = document.createElement('div');
                 glow.classList.add('glow');
-                glow.style.left = Math.random() * 100 + '%';
-                glow.style.top = Math.random() * 100 + '%';
-                glow.style.animationDelay = Math.random() * 5 + 's';
+                glow.style.left = Math.random() * 90 + '%';
+                glow.style.top = Math.random() * 90 + '%';
                 bg.appendChild(glow);
             }
         }
 
-        function toggleTheme() {
-            document.body.classList.toggle('light');
-            const btn = document.querySelector('.theme-toggle');
-            if(document.body.classList.contains('light')) {
-                btn.textContent = '🌙';
-                document.body.style.background = 'linear-gradient(135deg, #e0c3fc, #8ec5fc)';
+        // --- الموسيقى المحسنة ---
+        let audio = null;
+        let isPlaying = false;
+        function initMusic() {
+            try {
+                audio = new Audio();
+                audio.src = 'other/sound.mp3';
+                audio.loop = true;
+                audio.volume = 0.25;
+                fetch('other/sound.mp3', { method: 'HEAD' }).catch(()=>console.log("تحقق من الملف"));
+            } catch(e) { console.log("لا يوجد دعم"); }
+        }
+        function toggleMusic() {
+            if(!audio) return;
+            if(isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('playPauseBtn').textContent = '▶️';
+                document.getElementById('musicStatus').innerText = '⏸ متوقفة';
+                document.getElementById('waveEffect').style.display = 'none';
             } else {
-                btn.textContent = '☀️';
-                document.body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)';
+                audio.play().then(()=>{
+                    isPlaying = true;
+                    document.getElementById('playPauseBtn').textContent = '⏸';
+                    document.getElementById('musicStatus').innerText = '🎵 تشغيل';
+                    document.getElementById('waveEffect').style.display = 'flex';
+                }).catch(()=>alert("🔊 اضغط على زر التشغيل لتشغيل الموسيقى"));
             }
         }
-
-        function animateEntry() {
-            const card = document.getElementById('profileCard');
-            const loadingScreen = document.getElementById('loadingScreen');
-            
-            setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.visibility = 'hidden';
-                    card.classList.add('visible');
-                }, 500);
-            }, 1500);
-        }
-
-        // ربط أزرار الموسيقى
-        document.getElementById('playPauseBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMusic();
-        });
         
-        document.getElementById('musicPlayer').addEventListener('click', (e) => {
-            if(e.target.closest('.play-pause')) return;
-            toggleMusic();
-        });
-
+        // --- أنميشن السيوف ودخول البطاقة ---
+        function startSwordAnimation() {
+            const swordOverlay = document.getElementById('swordOverlay');
+            const loadingScreen = document.getElementById('loadingScreen');
+            const profileCard = document.getElementById('profileCard');
+            
+            // بعد ثانية ونصف تبدأ حركة السيوف
+            setTimeout(() => {
+                swordOverlay.classList.add('open');
+                setTimeout(() => {
+                    swordOverlay.style.display = 'none';
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.visibility = 'hidden';
+                        profileCard.classList.add('visible');
+                    }, 400);
+                }, 1100);
+            }, 1200);
+        }
+        
+        // تبديل الثيم
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+            const btn = document.getElementById('themeBtn');
+            if(document.body.classList.contains('light')) btn.textContent = '☀️';
+            else btn.textContent = '🌙';
+        }
+        
         window.addEventListener('load', () => {
             createBackgroundAnimation();
             loadSocialLinks();
             initMusic();
-            animateEntry();
+            startSwordAnimation();
+            document.getElementById('playPauseBtn').addEventListener('click', (e) => { e.stopPropagation(); toggleMusic(); });
+            document.getElementById('musicPlayer').addEventListener('click', (e) => { if(!e.target.closest('.play-pause')) toggleMusic(); });
+            document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+            // منع القائمة المنبثقة الطويلة
+            document.querySelectorAll('.social-btn, .theme-toggle, .music-player, .play-pause').forEach(el => {
+                el.addEventListener('contextmenu', (e) => e.preventDefault());
+            });
         });
     </script>
 </body>
