@@ -496,7 +496,7 @@
     </div>
 
     <script>
-        // إعداد الموسيقى من مجلد other
+        // إعداد الموسيقى - تم التعديل لقراءة ملف sound.mp3 مباشرة
         let audio = null;
         let isPlaying = false;
         
@@ -505,116 +505,46 @@
                 // إنشاء عنصر الصوت
                 audio = new Audio();
                 
-                // محاولة تحميل الموسيقى من مجلد other
-                // يمكنك وضع ملف الموسيقى في مجلد other وتسميته music.mp3
-                const musicFiles = [
-                    'other/music.mp3',
-                    'other/song.mp3',
-                    'other/background.mp3',
-                    'other/music.wav',
-                    'other/song.wav',
-                    'other/audio.mp3'
-                ];
+                // تحديد ملف الصوت الخاص بك مباشرة
+                audio.src = 'other/sound.mp3';
+                audio.loop = true;
+                audio.volume = 0.3; // صوت خفيف
                 
-                let musicLoaded = false;
-                
-                for(let file of musicFiles) {
-                    audio.src = file;
-                    // التحقق من وجود الملف
-                    fetch(file, { method: 'HEAD' })
-                        .then(response => {
-                            if(response.ok && !musicLoaded) {
-                                musicLoaded = true;
-                                audio.src = file;
-                                audio.loop = true;
-                                audio.volume = 0.3; // صوت خفيف
-                                document.querySelector('.music-title').textContent = '🎵 موسيقى خلفية';
-                                console.log('تم تحميل الموسيقى من:', file);
-                            }
-                        })
-                        .catch(() => {});
-                }
-                
-                // إذا لم يتم العثور على موسيقى، استخدم أصوات افتراضية خفيفة
-                setTimeout(() => {
-                    if(!musicLoaded && audio) {
-                        // إنشاء موسيقى افتراضية باستخدام Web Audio API (نغمات بسيطة)
-                        createAmbientSound();
-                    }
-                }, 1000);
+                // التحقق من وجود الملف
+                fetch('other/sound.mp3', { method: 'HEAD' })
+                    .then(response => {
+                        if(response.ok) {
+                            console.log('✅ تم العثور على ملف sound.mp3');
+                            document.querySelector('.music-title').textContent = '🎵 sound.mp3';
+                        } else {
+                            console.log('❌ لم يتم العثور على الملف في المسار: other/sound.mp3');
+                            document.querySelector('.music-title').textContent = '⚠️ ملف الصوت غير موجود';
+                        }
+                    })
+                    .catch(() => {
+                        console.log('❌ خطأ في تحميل الملف: other/sound.mp3');
+                        document.querySelector('.music-title').textContent = '⚠️ تأكد من وجود sound.mp3';
+                    });
                 
             } catch(e) {
                 console.log('مشغل الموسيقى غير متاح:', e);
             }
         }
         
-        // إنشاء موسيقى خفيفة افتراضية باستخدام Web Audio
-        let audioContext = null;
-        let oscillator = null;
-        let gainNode = null;
-        
-        function createAmbientSound() {
-            try {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                gainNode = audioContext.createGain();
-                gainNode.gain.value = 0.1; // صوت خفيف جداً
-                gainNode.connect(audioContext.destination);
-                
-                document.querySelector('.music-title').textContent = '🎵 Ambient Melody';
-            } catch(e) {
-                console.log('Web Audio not supported');
-            }
-        }
-        
-        function playAmbientMusic() {
-            if(!audioContext || oscillator) return;
-            
-            try {
-                oscillator = audioContext.createOscillator();
-                oscillator.type = 'sine';
-                oscillator.frequency.value = 440;
-                oscillator.connect(gainNode);
-                oscillator.start();
-                
-                // تغيير النغمات بشكل دوري
-                setInterval(() => {
-                    if(isPlaying && oscillator) {
-                        const frequencies = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
-                        const randomFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
-                        oscillator.frequency.value = randomFreq;
-                    }
-                }, 2000);
-            } catch(e) {}
-        }
-        
-        function stopAmbientMusic() {
-            if(oscillator) {
-                try {
-                    oscillator.stop();
-                    oscillator = null;
-                } catch(e) {}
-            }
-        }
-        
         function playMusic() {
-            if(audio && audio.src && !audio.src.includes('undefined')) {
-                audio.play().catch(e => {
-                    console.log('تشغيل الموسيقى يحتاج تفاعل المستخدم');
-                    createAmbientSound();
-                    playAmbientMusic();
-                });
-            } else if(audioContext) {
-                audioContext.resume().then(() => {
-                    playAmbientMusic();
+            if(audio) {
+                audio.play().then(() => {
+                    console.log('🎵 تم تشغيل الموسيقى بنجاح');
+                }).catch(e => {
+                    console.log('تحتاج إلى النقر على الصفحة أولاً لتشغيل الموسيقى');
+                    alert('🔊 اضغط على زر التشغيل ▶️ لتشغيل الموسيقى');
                 });
             }
         }
         
         function pauseMusic() {
-            if(audio && audio.src && !audio.src.includes('undefined')) {
+            if(audio) {
                 audio.pause();
-            } else {
-                stopAmbientMusic();
             }
         }
         
