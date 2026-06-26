@@ -20,6 +20,7 @@
             overflow-x: hidden;
         }
 
+        /* Intro - faster */
         .intro {
             position: fixed;
             top: 0;
@@ -31,7 +32,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease, visibility 0.6s;
+            transition: opacity 0.4s ease, visibility 0.4s;
+            will-change: opacity, visibility;
         }
 
         .intro.fade-out {
@@ -41,7 +43,7 @@
 
         .intro-content {
             text-align: center;
-            animation: introBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: introBounce 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .intro-content h1 {
@@ -54,47 +56,12 @@
             letter-spacing: 3px;
         }
 
-        .intro-content p {
-            color: rgba(255,255,255,0.6);
-            margin-top: 12px;
-            font-size: 14px;
-            letter-spacing: 2px;
-        }
-
         @keyframes introBounce {
-            0% {
-                transform: scale(0.7);
-                opacity: 0;
-            }
-            70% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: radial-gradient(circle, #667eea, #f093fb);
-            border-radius: 50%;
-            animation: floatUp 1.5s ease-out forwards;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-200px) scale(0);
-                opacity: 0;
-            }
-        }
-
+        /* Background - optimized */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -105,30 +72,28 @@
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
         }
 
+        /* Stars - fewer, faster */
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0.4;
             animation: starFall linear infinite;
+            will-change: transform;
         }
 
         @keyframes starFall {
-            from {
-                transform: translateY(-100px) translateX(0);
-            }
-            to {
-                transform: translateY(100vh) translateX(80px);
-                opacity: 0;
-            }
+            0% { transform: translateY(-100px) translateX(0); opacity: 0.4; }
+            100% { transform: translateY(100vh) translateX(60px); opacity: 0; }
         }
 
+        /* Main content */
         .main-content {
             position: relative;
             z-index: 1;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.8s ease-in-out, visibility 0.5s;
+            transition: opacity 0.5s ease-in-out, visibility 0.3s;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -143,36 +108,44 @@
 
         .profile-card {
             background: rgba(15, 25, 35, 0.85);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border-radius: 40px;
             padding: 35px 30px;
             max-width: 520px;
             width: 100%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
-            animation: cardSlide 0.6s ease-out;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08);
+            animation: cardSlide 0.5s ease-out;
+            transition: transform 0.25s ease;
+            will-change: transform;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-3px);
         }
 
         @keyframes cardSlide {
-            from {
-                transform: translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+            from { transform: translateY(30px) scale(0.97); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
         }
 
+        /* Profile image - optimized */
         .profile-img {
             width: 130px;
             height: 130px;
-            margin: 0 auto 20px;
+            margin: 0 auto 18px;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: borderRotate 3s linear infinite;
+            animation: borderRotate 4s linear infinite;
+            transition: transform 0.25s ease;
+            will-change: transform;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.04);
         }
 
         .profile-img img {
@@ -180,143 +153,382 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid rgba(255,255,255,0.3);
+            border: 3px solid rgba(255,255,255,0.25);
+            animation: imgFloat 2.5s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        @keyframes imgFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         @keyframes borderRotate {
-            0% { background: linear-gradient(0deg, #667eea, #764ba2, #f093fb); }
-            100% { background: linear-gradient(360deg, #667eea, #764ba2, #f093fb); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .username {
             text-align: center;
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #667eea, #f093fb);
+            background: linear-gradient(135deg, #fff, #667eea, #f093fb, #fff);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            animation: gradientMove 2.5s ease-in-out infinite;
+            letter-spacing: 2px;
+            will-change: background-position;
+        }
+
+        @keyframes gradientMove {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .handle {
             text-align: center;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 20px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 28px;
             font-size: 14px;
+            letter-spacing: 1px;
+            transition: color 0.2s ease;
         }
 
-        .bio {
-            text-align: center;
+        .handle:hover {
             color: rgba(255,255,255,0.85);
-            margin-bottom: 35px;
-            line-height: 1.7;
-            font-size: 14px;
         }
 
         .social-links {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .social-btn {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
+            padding: 11px 18px;
             border-radius: 25px;
-            text-decoration: none;
             color: white;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.25s ease;
-            gap: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            gap: 14px;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
         }
 
         .social-btn:active {
-            transform: scale(0.97);
-            background: rgba(255,255,255,0.15);
+            transform: scale(0.96);
         }
 
         @media (hover: hover) {
             .social-btn:hover {
                 transform: translateX(5px);
-                background: rgba(255,255,255,0.15);
+                background: rgba(255,255,255,0.1);
+                border-color: rgba(255,255,255,0.15);
             }
         }
 
         .social-icon svg {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             fill: white;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .social-btn:hover .social-icon svg {
+            transform: scale(1.1);
         }
 
         .social-info {
             flex: 1;
+            min-width: 0;
         }
 
         .social-name {
             font-size: 15px;
             font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .social-btn:hover .social-name {
+            color: #a285ff;
         }
 
         .social-username {
             font-size: 11px;
-            opacity: 0.7;
+            opacity: 0.6;
             font-family: monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .theme-toggle {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            border: none;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 50%;
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             cursor: pointer;
-            font-size: 22px;
+            font-size: 20px;
             z-index: 100;
-            transition: 0.2s;
+            transition: all 0.2s ease;
+            will-change: transform;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.08);
+            background: rgba(255,255,255,0.2);
         }
 
         .theme-toggle:active {
-            transform: rotate(90deg) scale(0.95);
+            transform: scale(0.9);
         }
 
+        /* Light Theme */
         body.light .animated-bg {
             background: linear-gradient(135deg, #e0c3fc, #b0d4ff, #c2e9fb);
         }
         body.light .profile-card {
-            background: rgba(245, 240, 255, 0.8);
+            background: rgba(245, 240, 255, 0.88);
         }
         body.light .username {
-            background: linear-gradient(135deg, #2c3e66, #8e2de2);
+            background: linear-gradient(135deg, #2c3e66, #8e2de2, #2c3e66);
+            background-size: 300% 300%;
             -webkit-background-clip: text;
+            animation: gradientMove 2.5s ease-in-out infinite;
         }
-        body.light .bio, body.light .handle, body.light .social-username, body.light .social-name {
+        body.light .handle, body.light .social-username, body.light .social-name {
             color: #1a1a2e;
         }
         body.light .social-btn {
-            background: rgba(0,0,0,0.05);
-            border-color: rgba(0,0,0,0.1);
+            background: rgba(0,0,0,0.04);
+            border-color: rgba(0,0,0,0.06);
             color: #111;
         }
         body.light .social-icon svg {
             fill: #1a1a2e;
         }
+        body.light .social-btn:hover {
+            background: rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.12);
+        }
+        body.light .social-btn:hover .social-name {
+            color: #764ba2;
+        }
+        body.light .theme-toggle {
+            background: rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.08);
+        }
+
+        /* Modal - faster */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            animation: modalFade 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes modalFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-box {
+            background: linear-gradient(145deg, #1a1a2e, #24243e);
+            border-radius: 30px;
+            padding: 35px 30px;
+            max-width: 360px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.08);
+            animation: modalPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            will-change: transform, opacity;
+        }
+
+        body.light .modal-box {
+            background: linear-gradient(145deg, #f5f0ff, #e8e0f5);
+            border-color: rgba(0,0,0,0.06);
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            border: 3px solid #667eea;
+            object-fit: cover;
+            animation: imgFloat 2.5s ease-in-out infinite;
+            will-change: transform;
+        }
+
+        .modal-name {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #667eea, #f093fb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 3px;
+        }
+
+        body.light .modal-name {
+            background: linear-gradient(135deg, #2c3e66, #8e2de2);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .modal-handle {
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        body.light .modal-handle {
+            color: rgba(0,0,0,0.4);
+        }
+
+        .modal-platform {
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+        }
+
+        body.light .modal-platform {
+            color: rgba(0,0,0,0.25);
+        }
+
+        .modal-link-btn {
+            display: inline-block;
+            padding: 11px 32px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            margin-top: 3px;
+            will-change: transform;
+        }
+
+        .modal-link-btn:hover {
+            transform: scale(1.04);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.35);
+        }
+
+        .modal-link-btn:active {
+            transform: scale(0.95);
+        }
+
+        .modal-close {
+            margin-top: 12px;
+            background: rgba(255,255,255,0.06);
+            border: none;
+            color: rgba(255,255,255,0.5);
+            padding: 6px 22px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        body.light .modal-close {
+            color: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.04);
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+        }
+
+        body.light .modal-close:hover {
+            background: rgba(0,0,0,0.08);
+            color: black;
+        }
 
         @media (max-width: 500px) {
             .profile-card {
-                padding: 25px 20px;
+                padding: 22px 18px;
             }
             .username {
-                font-size: 28px;
+                font-size: 26px;
             }
             .intro-content h1 {
-                font-size: 32px;
+                font-size: 30px;
+            }
+            .profile-img {
+                width: 100px;
+                height: 100px;
+            }
+            .profile-img img {
+                width: 92px;
+                height: 92px;
+            }
+            .modal-box {
+                padding: 25px 18px;
+            }
+            .modal-img {
+                width: 75px;
+                height: 75px;
+            }
+            .modal-name {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .profile-card {
+                padding: 18px 14px;
+            }
+            .username {
+                font-size: 22px;
+            }
+            .social-btn {
+                padding: 9px 14px;
+                gap: 10px;
+            }
+            .social-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+            .social-name {
+                font-size: 13px;
             }
         }
     </style>
@@ -327,7 +539,6 @@
 <div class="intro" id="intro">
     <div class="intro-content">
         <h1>hurleyxyz</h1>
-        <p>✦ Welcome ✦</p>
     </div>
 </div>
 
@@ -336,15 +547,24 @@
 <div class="main-content" id="mainContent">
     <div class="profile-card">
         <div class="profile-img">
-            <img id="profileImage" src="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp?ex=6a188715&is=6a173595&hm=5c89187144f01e10641be3567ca20b4d0597d69f1f354b261ffe08eb89e7334b&" alt="Profile">
+            <img id="profileImage" src="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp?ex=6a188715&is=6a173595&hm=5c89187144f01e10641be3567ca20b4d0597d69f1f354b261ffe08eb89e7334b&" alt="Profile" loading="lazy" decoding="async">
         </div>
         <h1 class="username">hurleyxyz</h1>
         <div class="handle">@hurleyxyz</div>
-        <p class="bio">
-            ✨ Full Stack Developer | Creator | Tech Enthusiast ✨<br>
-            Building digital experiences & sharing knowledge
-        </p>
         <div class="social-links" id="socialLinks"></div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+        <img id="modalImg" class="modal-img" src="https://cdn.discordapp.com/attachments/1436453150046290042/1509259653026939091/IMG_20260527_113300_812.webp?ex=6a188715&is=6a173595&hm=5c89187144f01e10641be3567ca20b4d0597d69f1f354b261ffe08eb89e7334b&" alt="Profile" loading="lazy" decoding="async">
+        <div class="modal-name">hurleyxyz</div>
+        <div class="modal-handle">@hurleyxyz</div>
+        <div class="modal-platform" id="modalPlatform">Discord</div>
+        <a href="#" id="modalLink" class="modal-link-btn" target="_blank">Visit Link →</a>
+        <br>
+        <button class="modal-close" id="modalClose">Close</button>
     </div>
 </div>
 
@@ -359,30 +579,41 @@
         tiktok: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>`,
         whatsapp: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-5.46-4.45-9.91-9.91-9.91zm0 18.23c-1.49 0-2.95-.4-4.2-1.16l-.3-.18-3.12.82.83-3.04-.2-.31a7.33 7.33 0 0 1-1.26-4.12c0-4.07 3.31-7.38 7.38-7.38 4.07 0 7.38 3.31 7.38 7.38-.01 4.07-3.32 7.38-7.38 7.38z"/><path d="M16.85 13.51c-.23-.12-1.37-.68-1.58-.75-.21-.08-.36-.12-.51.12-.15.23-.58.75-.71.9-.13.15-.26.17-.48.05-.23-.12-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.47.11-.11.23-.27.33-.4.11-.13.15-.23.22-.38.07-.15.04-.27-.02-.38s-.51-1.23-.7-1.68c-.18-.44-.37-.38-.51-.38-.13 0-.28-.02-.43-.02s-.39.06-.6.28c-.21.23-.79.78-.79 1.9 0 1.12.81 2.2.93 2.35.11.15 1.6 2.45 3.88 3.43.54.23.96.37 1.29.47.54.17 1.03.15 1.42.09.43-.07 1.37-.56 1.57-1.1.19-.54.19-1.01.14-1.1-.06-.09-.21-.15-.44-.27z"/></svg>`,
         instagram: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.29 2 6 4.29 6 8v8c0 3.71 2.29 6 6 6s6-2.29 6-6V8c0-3.71-2.29-6-6-6zm3 8c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1V9c0-.55.45-1 1-1h4c.55 0 1 .45 1 1v1z"/><circle cx="12" cy="15" r="3"/></svg>`,
-        facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>`,
-        server: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v12h16V6H4zm2 2h12v2H6V8zm0 4h8v2H6v-2zm0 4h12v2H6v-2z"/></svg>`
+        facebook: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>`
     };
 
     const socialData = [
         { name: "Email", username: "ufeelgg@gmail.com", icon: icons.email, url: "mailto:hurley@example.com" },
         { name: "GitHub", username: "hurleyxyz", icon: icons.github, url: "https://github.com/ufeelgg-netizen" },
         { name: "Discord", username: "hurleyxyz", icon: icons.discord, url: "https://discord.gg/WH3zqsuv" },
-        { name: "X (Twitter)", username: "@hurleyxyz", icon: icons.twitter, url: "https://x.com/AliYoun2696890" },
+        { name: "X", username: "@hurleyxyz", icon: icons.twitter, url: "https://x.com/AliYoun2696890" },
         { name: "TikTok", username: "@hurleyxyz", icon: icons.tiktok, url: "https://www.tiktok.com/@hurleyxyz" },
         { name: "WhatsApp", username: "hurleyxyz", icon: icons.whatsapp, url: "https://wa.me/94404537" },
         { name: "Instagram", username: "@hurleyxyz", icon: icons.instagram, url: "https://www.instagram.com/hurleyxyz_" },
-        { name: "Facebook", username: "hurleyxyz", icon: icons.facebook, url: "https://www.facebook.com/share/1CdmnFusmC/" },
-        { name: "Server", username: "Join my server", icon: icons.server, url: "https://discord.gg/your-server" }
+        { name: "Facebook", username: "hurleyxyz", icon: icons.facebook, url: "https://www.facebook.com/share/1CdmnFusmC/" }
     ];
+
+    let currentLink = '';
+
+    function openModal(platform, url) {
+        currentLink = url;
+        document.getElementById('modalPlatform').textContent = platform;
+        document.getElementById('modalLink').href = url;
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
 
     function loadSocialLinks() {
         const container = document.getElementById('socialLinks');
         container.innerHTML = '';
         socialData.forEach(social => {
-            const btn = document.createElement('a');
-            btn.href = social.url;
+            const btn = document.createElement('div');
             btn.className = 'social-btn';
-            btn.target = '_blank';
             btn.innerHTML = `
                 <div class="social-icon">${social.icon}</div>
                 <div class="social-info">
@@ -390,37 +621,24 @@
                     <div class="social-username">${social.username}</div>
                 </div>
             `;
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.open(social.url, '_blank');
+            btn.addEventListener('click', () => {
+                openModal(social.name, social.url);
             });
             container.appendChild(btn);
         });
     }
 
     function createStars() {
-        for(let i = 0; i < 80; i++) {
+        const bg = document.getElementById('animatedBg');
+        for(let i = 0; i < 40; i++) {
             const star = document.createElement('div');
             star.classList.add('star');
             star.style.left = Math.random() * 100 + '%';
-            star.style.width = Math.random() * 2 + 1 + 'px';
+            star.style.width = (Math.random() * 2 + 1) + 'px';
             star.style.height = star.style.width;
-            star.style.animationDuration = Math.random() * 4 + 2 + 's';
-            star.style.animationDelay = Math.random() * 8 + 's';
-            document.getElementById('animatedBg').appendChild(star);
-        }
-    }
-
-    function createParticles() {
-        for(let i = 0; i < 50; i++) {
-            setTimeout(() => {
-                const p = document.createElement('div');
-                p.classList.add('particle');
-                p.style.left = Math.random() * 100 + '%';
-                p.style.top = Math.random() * 100 + '%';
-                document.getElementById('intro').appendChild(p);
-                setTimeout(() => p.remove(), 1500);
-            }, i * 20);
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = (Math.random() * 6) + 's';
+            bg.appendChild(star);
         }
     }
 
@@ -439,7 +657,6 @@
     window.addEventListener('load', () => {
         loadSocialLinks();
         createStars();
-        createParticles();
         
         setTimeout(() => {
             const intro = document.getElementById('intro');
@@ -447,10 +664,21 @@
             setTimeout(() => {
                 intro.style.display = 'none';
                 document.getElementById('mainContent').classList.add('visible');
-            }, 600);
-        }, 1500);
+            }, 400);
+        }, 1000);
         
         document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if(e.target === document.getElementById('modalOverlay')) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') closeModal();
+        });
     });
 </script>
 </body>
